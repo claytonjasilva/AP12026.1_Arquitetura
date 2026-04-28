@@ -1,2 +1,2 @@
-### Grupo 1
+### Grupo A
 - Marcos Paulo Lopes de Assunção - Representante
