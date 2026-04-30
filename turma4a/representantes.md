@@ -3,3 +3,6 @@
 
 ## Grupo B
 - João Gabriel Guedes
+
+## Grupo D
+- Luiz Fernando S. Divino
