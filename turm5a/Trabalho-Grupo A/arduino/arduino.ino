@@ -5,14 +5,7 @@ HENRIQUE MUNDY
 LUCAS DE CARVALHO V.
 */
 
-int segPins[7] = {22, 23, 24, 25, 26, 27, 28};
-
-#define LED1   42
-#define LED2   43
-#define LED3   44
-#define BUZZER 45
-
-// ================== TECLADO ==================
+// ===== TECLADO =====
 const byte ROWS = 4;
 const byte COLS = 4;
 
@@ -23,237 +16,232 @@ char keys[ROWS][COLS] = {
   {'*','0','#','D'}
 };
 
-byte rowPins[ROWS] = {32, 33, 34, 35};
-byte colPins[COLS] = {36, 37, 38, 39};
+byte rowPins[ROWS] = {30,31,32,33};
+byte colPins[COLS] = {34,35,36,37};
 
 Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
 
-// ================== CPU ==================
+#define TRIG 40
+#define ECHO 41
+#define LED1 42
+#define LED2 43
+#define LED3 44
+#define BUZZER 45
+
 int PC = 0;
-byte IR = 0;
 int ACC = 0;
 bool FLAG_Z = false;
 bool EXECUTANDO = false;
 
+struct Instrucao {
+  byte op;
+  int arg;
+};
+
+Instrucao prog[16];
+int tam = 0;
+
 int MEM[16];
 
-struct Instrucao {
-  byte opcode;
-  int operando;
+enum {
+  HALT, READ, LOADK, ADDK, SUBK, CMPK,
+  LEDON, LEDOFF, BUZON, BUZOFF,
+  DISP, ALERT,
+  BINC, STORE, LOADM,
+  NOP,
+  BZ, JMP
 };
 
-Instrucao programa[16];
-int numInstrucoes = 0;
-
-String buffer = "";
-
-// ================== MNEMONICOS ==================
-const char* MNEMONICOS[] = {
-  "NOP","READ","LOADK","ADDK","SUBK","CMPK",
-  "LEDON","LEDOFF","BUZON","BUZOFF","DISP",
-  "NOP2","NOP3","STORE","LOADM","HALT"
+const char* NOME[] = {
+  "HALT","READ","LOADK","ADDK","SUBK","CMPK",
+  "LEDON","LEDOFF","BUZON","BUZOFF",
+  "DISP","ALERT",
+  "BINC","STORE","LOADM",
+  "NOP","BZ","JMP"
 };
 
-const bool TEM_OPERANDO[] = {
-  false,false,true,true,true,true,
-  true,true,false,false,false,
-  false,false,true,true,false
-};
 
-// ================== DISPLAY ==================
-byte SEG_DIGITOS[10][7] = {
-  {1,1,1,1,1,1,0},
-  {0,1,1,0,0,0,0},
-  {1,1,0,1,1,0,1},
-  {1,1,1,1,0,0,1},
-  {0,1,1,0,0,1,1},
-  {1,0,1,1,0,1,1},
-  {1,0,1,1,1,1,1},
-  {1,1,1,0,0,0,0},
-  {1,1,1,1,1,1,1},
-  {1,1,1,1,0,1,1}
-};
+int lerSensor(){
+  digitalWrite(TRIG,LOW); delayMicroseconds(2);
+  digitalWrite(TRIG,HIGH); delayMicroseconds(10);
+  digitalWrite(TRIG,LOW);
 
-void escreverSegmentos(byte p[7]) {
-  for (int i = 0; i < 7; i++)
-    digitalWrite(segPins[i], p[i]);
+  long d = pulseIn(ECHO,HIGH,10000);
+  if(d==0) return 15;
+
+  return d*0.034/2;
 }
 
-void mostrarNoDisplay(int valor) {
-  if (valor >= 0 && valor <= 9)
-    escreverSegmentos(SEG_DIGITOS[valor]);
-}
 
-// ================== SETUP ==================
-void setup() {
-  Serial.begin(9600);
+void ciclo(){
 
-  pinMode(LED1, OUTPUT);
-  pinMode(LED2, OUTPUT);
-  pinMode(LED3, OUTPUT);
-  pinMode(BUZZER, OUTPUT);
+  if(!EXECUTANDO) return;
 
-  for (int i = 0; i < 7; i++)
-    pinMode(segPins[i], OUTPUT);
-
-  Serial.println("=== CPU DIDATICA COM TECLADO ===");
-  Serial.println("Digite instrucoes:");
-  Serial.println("Ex: 2A5D (LOADK 5)");
-  Serial.println("D = confirmar | * = executar | # = reset");
-}
-
-// ================== LOOP ==================
-void loop() {
-  char tecla = keypad.getKey();
-
-  if (tecla) {
-    Serial.print("Tecla: ");
-    Serial.println(tecla);
-
-    processarEntrada(tecla);
-  }
-}
-
-// ================== ENTRADA ==================
-void processarEntrada(char tecla) {
-
-  if (tecla == '#') {
-    limparMemoria();
-    Serial.println(">>> RESET");
-    return;
-  }
-
-  if (tecla == '*') {
-    executarCiclo();
-    return;
-  }
-
-  if (tecla == 'D') {
-    buffer.trim();
-    if (buffer.length() > 0) {
-      armazenarInstrucao(buffer);
-      buffer = "";
-    }
-    return;
-  }
-
-  // A = espaço
-  if (tecla == 'A') buffer += ' ';
-  else buffer += tecla;
-}
-
-// ================== LOAD ==================
-void armazenarInstrucao(String cmd) {
-
-  if (cmd == "RUN") {
-    EXECUTANDO = true;
-    PC = 0;
-    Serial.println(">>> EXECUTANDO");
-    return;
-  }
-
-  if (numInstrucoes >= 16) {
-    Serial.println("Memoria cheia");
-    return;
-  }
-
-  int esp = cmd.indexOf(' ');
-  byte op = (esp == -1) ? cmd.toInt() : cmd.substring(0, esp).toInt();
-  int oper = (esp == -1) ? 0 : cmd.substring(esp + 1).toInt();
-
-  programa[numInstrucoes++] = {op, oper};
-
-  Serial.print("[LOAD] ");
-  Serial.println(instrucaoParaMnemonico(op, oper));
-}
-
-// ================== EXECUÇÃO ==================
-void executarCiclo() {
-
-  if (!EXECUTANDO) {
-    Serial.println("Nao esta em RUN");
-    return;
-  }
-
-  if (PC >= numInstrucoes) {
-    Serial.println("[FIM]");
+  if(PC >= tam){
     EXECUTANDO = false;
+    Serial.println("FIM");
     return;
   }
 
-  IR = programa[PC].opcode;
-  int oper = programa[PC].operando;
+  byte op = prog[PC].op;
+  int arg = prog[PC].arg;
 
-  switch (IR) {
+  switch(op){
 
-    case 0: break;
+    case HALT: EXECUTANDO=false; break;
 
-    case 1:
-      Serial.println("Digite valor no Serial:");
-      while (!Serial.available());
-      ACC = Serial.parseInt();
+    case READ: ACC=lerSensor(); break;
+
+    case LOADK: ACC=arg; break;
+
+    case ADDK: ACC+=arg; break;
+
+    case SUBK: ACC-=arg; break;
+
+    case CMPK: FLAG_Z=(ACC==arg); break;
+
+    case LEDON:
+      if(arg==1) digitalWrite(LED1,HIGH);
+      if(arg==2) digitalWrite(LED2,HIGH);
+      if(arg==3) digitalWrite(LED3,HIGH);
       break;
 
-    case 2: ACC = oper; break;
-    case 3: ACC += oper; break;
-    case 4: ACC -= oper; break;
-    case 5: FLAG_Z = (ACC == oper); break;
-
-    case 6: ligarLED(oper); break;
-    case 7: desligarLED(oper); break;
-
-    case 8: tone(BUZZER, 1000); break;
-    case 9: noTone(BUZZER); break;
-
-    case 10: mostrarNoDisplay(ACC); break;
-
-    case 13: MEM[oper] = ACC; break;
-    case 14: ACC = MEM[oper]; break;
-
-    case 15:
-      EXECUTANDO = false;
-      Serial.println("HALT");
+    case LEDOFF:
+      if(arg==1) digitalWrite(LED1,LOW);
+      if(arg==2) digitalWrite(LED2,LOW);
+      if(arg==3) digitalWrite(LED3,LOW);
       break;
+
+    case BUZON: tone(BUZZER,1000); break;
+
+    case BUZOFF: noTone(BUZZER); break;
+
+    case DISP:
+      Serial.print("ACC=");
+      Serial.println(ACC);
+      break;
+
+    case ALERT:
+      ACC = lerSensor();
+      if(ACC < 10) tone(BUZZER,2000);
+      break;
+
+    case BINC: if(arg<16) MEM[arg]++; break;
+
+    case STORE: if(arg<16) MEM[arg]=ACC; break;
+
+    case LOADM: if(arg<16) ACC=MEM[arg]; break;
+
+    case BZ:
+      if(FLAG_Z){ PC=arg; return; }
+      break;
+
+    case JMP:
+      PC=arg; return;
+
+    case NOP: break;
   }
 
-  Serial.print("PC: ");
+  Serial.print("PC:");
   Serial.print(PC);
-  Serial.print(" ACC: ");
+  Serial.print(" ");
+  Serial.print(NOME[op]);
+  Serial.print(" ACC=");
   Serial.println(ACC);
 
-  if (IR != 15) PC++;
+  PC++;
 }
 
-// ================== HARDWARE ==================
-void ligarLED(int n) {
-  if (n == 1) digitalWrite(LED1, HIGH);
-  if (n == 2) digitalWrite(LED2, HIGH);
-  if (n == 3) digitalWrite(LED3, HIGH);
+
+String buffer = "";
+bool modoLOAD = true;
+
+unsigned long lastKeyTime = 0;
+
+void setup(){
+
+  Serial.begin(9600);
+
+  pinMode(TRIG,OUTPUT);
+  pinMode(ECHO,INPUT);
+
+  pinMode(LED1,OUTPUT);
+  pinMode(LED2,OUTPUT);
+  pinMode(LED3,OUTPUT);
+
+  pinMode(BUZZER,OUTPUT);
+
+  for(int i=0;i<16;i++) MEM[i]=0;
+
+  Serial.println("MODO LOAD");
 }
 
-void desligarLED(int n) {
-  if (n == 1) digitalWrite(LED1, LOW);
-  if (n == 2) digitalWrite(LED2, LOW);
-  if (n == 3) digitalWrite(LED3, LOW);
-}
+// ===== LOOP =====
+void loop(){
 
-// ================== AUX ==================
-void limparMemoria() {
-  PC = 0;
-  EXECUTANDO = false;
-  numInstrucoes = 0;
+  char t = keypad.getKey();
 
-  for (int i = 0; i < 16; i++) {
-    MEM[i] = 0;
-    programa[i] = {0,0};
+  // debounce forte
+  if(t && millis() - lastKeyTime < 200) return;
+  if(t) lastKeyTime = millis();
+
+  if(!t) return;
+
+
+  if(t=='C'){
+    modoLOAD=true;
+    EXECUTANDO=false;
+    PC=0;
+    tam=0;
+    buffer="";
+    Serial.println("RESET");
+    return;
   }
-}
 
-String instrucaoParaMnemonico(byte op, int operando) {
-  String s = MNEMONICOS[op];
-  if (TEM_OPERANDO[op]) {
-    s += " ";
-    s += operando;
+ 
+  if(modoLOAD){
+
+    // entrar em RUN
+    if(t=='D'){
+      if(tam == 0){
+        Serial.println("SEM PROGRAMA");
+        return;
+      }
+
+      modoLOAD=false;
+      EXECUTANDO=true;
+      PC=0;
+      Serial.println("RUN");
+      return;
+    }
+
+    // confirmar instrução
+    if(t=='#'){
+
+      int esp = buffer.indexOf(' ');
+      int op = (esp==-1)? buffer.toInt() : buffer.substring(0,esp).toInt();
+      int arg = (esp==-1)? 0 : buffer.substring(esp+1).toInt();
+
+      if(op >= 0 && op < 18 && tam < 16){
+        prog[tam++] = {(byte)op,arg};
+        Serial.println(NOME[op]);
+      } else {
+        Serial.println("ERRO");
+      }
+
+      buffer="";
+      return;
+    }
+
+    // montar instrução
+    if(t=='A') buffer+=' ';
+    else buffer+=t;
+
+    Serial.print(t);
   }
-  return s;
+
+  else{
+
+    if(t=='*') ciclo();
+  }
 }
