@@ -1,6 +1,6 @@
-# 🧠 Sistema Interpretador de Instruções - Arduino Mega 2560
+#  Sistema Interpretador de Instruções - Arduino Mega 2560
 
-## 📌 Descrição do Projeto
+##  Descrição do Projeto
 
 Este projeto implementa um sistema embarcado baseado no Arduino Mega 2560 que simula conceitos fundamentais de Arquitetura de Computadores, como:
 
@@ -14,7 +14,7 @@ O sistema interpreta instruções digitadas (via Serial ou teclado) no formato n
 
 ---
 
-## 🧩 Elementos Arquiteturais Implementados
+##  Elementos Arquiteturais Implementados
 
 | Componente | Implementação |
 |----------|--------|
@@ -28,19 +28,19 @@ O sistema interpreta instruções digitadas (via Serial ou teclado) no formato n
 
 ---
 
-## 🔄 Modelo de Execução
+##  Modelo de Execução
 
-### 🔹 Modo LOAD
+###  Modo LOAD
 - Ativado com `#`
 - Armazena instruções na memória de programa
 
-### 🔹 Modo RUN
+###  Modo RUN
 - Comando `RUN`
 - Execução passo a passo com `*`
 
 ---
 
-## 🔢 Conjunto de Instruções
+##  Conjunto de Instruções
 
 | Código | Instrução | Função |
 |------|--------|--------|
@@ -59,7 +59,7 @@ O sistema interpreta instruções digitadas (via Serial ou teclado) no formato n
 
 ---
 
-## ⚙️ Ciclo de Instrução
+##  Ciclo de Instrução
 
 1. Busca instrução (`PC`)
 2. Carrega no `IR`
@@ -69,14 +69,14 @@ O sistema interpreta instruções digitadas (via Serial ou teclado) no formato n
 
 ---
 
-## 💾 Tratamento de Erros
+##  Tratamento de Erros
 
 - Overflow (>9): exibe `E`
 - Negativo: exibe `-`
 
 ---
 
-## 🔌 Hardware Utilizado
+##  Hardware Utilizado
 
 - Arduino Mega 2560
 - LEDs
@@ -86,7 +86,7 @@ O sistema interpreta instruções digitadas (via Serial ou teclado) no formato n
 
 ---
 
-## 🧪 Testes Realizados
+## Testes Realizados
 
 - ✔ Operações matemáticas
 - ✔ Controle de LED
@@ -97,6 +97,6 @@ O sistema interpreta instruções digitadas (via Serial ou teclado) no formato n
 
 ---
 
-## 🚀 Conclusão
+##  Conclusão
 
 O projeto demonstra com sucesso a aplicação prática dos conceitos de arquitetura de computadores em um sistema embarcado.
