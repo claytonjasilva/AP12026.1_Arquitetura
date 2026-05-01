@@ -512,12 +512,12 @@ cpp
 | # | Entregável | Status |
 |---|---|---|
 | 1 | Documentação do projeto em Markdown | ✅ Este documento |
-| 2 | Sketch do Arduino comentado | ✅ ./Sketch/sketch.ino |
+| 2 | Sketch do Arduino comentado | ✅ https://github.com/claytonjasilva/AP12026.1_Arquitetura/blob/main/turm5a/GRUPO%20E/Sketch/sketch.ino |
 | 3 | Protótipo físico montado em protoboard e funcional | ✅ Entregue em aula |
 | 4 | Repositório GitHub com documentação e código | ✅ Este repositório |
 | 5 | Histórico de commits correspondente ao desenvolvimento | ✅ https://github.com/pedrolucasfonseca/Arquitetura-de-Computadores-AP1-2026.1/commits/main/ |
 
-*Repositório:* https://github.com/claytonjasilva/AP12026.1_Arquitetura/tree/main/turm5a/GRUPO%20B .
+*Repositório:* https://github.com/claytonjasilva/AP12026.1_Arquitetura/tree/main/turm5a/GRUPO%20E .
 
 ---
 
