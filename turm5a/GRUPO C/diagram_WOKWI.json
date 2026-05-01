@@ -1,0 +1,204 @@
+{
+  "version": 1,
+  "author": "Anonymous maker",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-breadboard",
+      "id": "bb1",
+      "top": -358.6,
+      "left": -80.8,
+      "rotate": 180,
+      "attrs": {}
+    },
+    { "type": "wokwi-arduino-mega", "id": "mega", "top": 0.6, "left": -3.6, "attrs": {} },
+    { "type": "wokwi-membrane-keypad", "id": "keypad1", "top": -11.6, "left": 514.4, "attrs": {} },
+    {
+      "type": "wokwi-hc-sr04",
+      "id": "ultrasonic1",
+      "top": -132.9,
+      "left": 447.1,
+      "attrs": { "distance": "7" }
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "bz1",
+      "top": -122.4,
+      "left": 193.8,
+      "attrs": { "volume": "0.1" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": -320.4,
+      "left": 157.4,
+      "attrs": { "color": "blue" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led2",
+      "top": -320.4,
+      "left": 253.4,
+      "attrs": { "color": "red" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led3",
+      "top": -320.4,
+      "left": 205.4,
+      "attrs": { "color": "green" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": -244.8,
+      "left": 153.05,
+      "rotate": 90,
+      "attrs": { "value": "300" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": -244.8,
+      "left": 201.05,
+      "rotate": 90,
+      "attrs": { "value": "300" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r3",
+      "top": -244.8,
+      "left": 249.05,
+      "rotate": 90,
+      "attrs": { "value": "300" }
+    },
+    {
+      "type": "wokwi-7segment",
+      "id": "sevseg1",
+      "top": -482.88,
+      "left": 550.98,
+      "attrs": { "common": "cathode" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r10",
+      "top": -254.4,
+      "left": 431.45,
+      "rotate": 90,
+      "attrs": { "value": "300" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r11",
+      "top": -254.4,
+      "left": 441.05,
+      "rotate": 90,
+      "attrs": { "value": "300" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r4",
+      "top": -254.4,
+      "left": 450.65,
+      "rotate": 90,
+      "attrs": { "value": "300" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r5",
+      "top": -254.4,
+      "left": 460.25,
+      "rotate": 90,
+      "attrs": { "value": "300" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r6",
+      "top": -254.4,
+      "left": 469.85,
+      "rotate": 90,
+      "attrs": { "value": "300" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r7",
+      "top": -254.4,
+      "left": 479.45,
+      "rotate": 90,
+      "attrs": { "value": "300" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r8",
+      "top": -254.4,
+      "left": 489.05,
+      "rotate": 90,
+      "attrs": { "value": "300" }
+    }
+  ],
+  "connections": [
+    [ "mega:5V", "bb1:tp.50", "red", [ "v17.1", "h-212.5", "v-268.1" ] ],
+    [ "mega:GND.2", "bb1:tn.50", "black", [ "v26.7", "h-231.85", "v-287.7" ] ],
+    [ "mega:30", "keypad1:R1", "green", [ "h-44.2", "v298.6", "h301.2" ] ],
+    [ "mega:31", "keypad1:R2", "green", [ "h51.4", "v308.2", "h205.6" ] ],
+    [ "mega:32", "keypad1:R3", "green", [ "h-34.6", "v308.3", "h311.1" ] ],
+    [ "mega:33", "keypad1:R4", "green", [ "h41.8", "v317.9", "h234.2" ] ],
+    [ "mega:34", "keypad1:C1", "green", [ "h-25", "v318", "h320.5" ] ],
+    [ "mega:35", "keypad1:C2", "green", [ "h32.2", "v327.6", "h262.8" ] ],
+    [ "mega:36", "keypad1:C3", "green", [ "h-15.4", "v327.7", "h330.15" ] ],
+    [ "mega:37", "keypad1:C4", "green", [ "h22.6", "v337.3", "h291.9" ] ],
+    [ "bb1:tp.2", "ultrasonic1:VCC", "red", [ "h0.8", "v134.1" ] ],
+    [ "bb1:tn.1", "ultrasonic1:GND", "black", [ "h20", "v144.1" ] ],
+    [ "mega:40", "ultrasonic1:TRIG", "cyan", [ "h119", "v-132.55" ] ],
+    [ "mega:45", "bz1:2", "red", [ "v0" ] ],
+    [ "bz1:1", "bb1:tn.31", "black", [ "h-38.4", "v-134.5" ] ],
+    [ "bb1:40b.f", "bb1:tn.32", "black", [ "v0" ] ],
+    [ "bb1:35b.f", "bb1:tn.28", "black", [ "v0" ] ],
+    [ "bb1:30b.f", "bb1:tn.24", "black", [ "v0" ] ],
+    [ "mega:42", "bb1:29t.a", "red", [ "v-315.7", "h-79" ] ],
+    [ "mega:43", "bb1:34t.a", "red", [ "h26.2", "v-306.1", "h-163.2" ] ],
+    [ "mega:44", "bb1:39t.a", "red", [ "h-31", "v-306", "h-144" ] ],
+    [ "mega:39", "ultrasonic1:ECHO", "cyan", [ "h131.8", "v-114.05", "h39.2" ] ],
+    [ "sevseg1:A", "bb1:10b.h", "yellow", [ "v-95.16", "h-182.4" ] ],
+    [ "sevseg1:B", "bb1:9b.h", "yellow", [ "v-85.56", "h-182.4" ] ],
+    [ "sevseg1:C", "bb1:8b.h", "yellow", [ "v9.6", "h-163.2" ] ],
+    [ "sevseg1:D", "bb1:7b.h", "yellow", [ "v19.2", "h-134.4" ] ],
+    [ "sevseg1:E", "bb1:6b.h", "yellow", [ "v28.8", "h-115.2" ] ],
+    [ "sevseg1:F", "bb1:5b.h", "yellow", [ "v-75.96", "h-115.2" ] ],
+    [ "sevseg1:G", "bb1:4b.h", "yellow", [ "v-66.36", "h-96" ] ],
+    [ "mega:22", "bb1:10t.b", "blue", [ "h17", "v-229.3" ] ],
+    [ "mega:23", "bb1:9t.b", "blue", [ "h16.6", "v-229.3" ] ],
+    [ "mega:24", "bb1:8t.b", "blue", [ "h45.8", "v-239.05" ] ],
+    [ "mega:25", "bb1:7t.b", "blue", [ "h45.4", "v-239.05" ] ],
+    [ "mega:26", "bb1:6t.b", "blue", [ "h55.4", "v-248.55" ] ],
+    [ "mega:27", "bb1:5t.b", "blue", [ "h55", "v-248.55" ] ],
+    [ "sevseg1:COM.1", "bb1:tn.2", "black", [ "v115.1" ] ],
+    [ "led1:A", "bb1:39b.g", "", [ "$bb" ] ],
+    [ "led1:C", "bb1:40b.g", "", [ "$bb" ] ],
+    [ "led2:A", "bb1:29b.g", "", [ "$bb" ] ],
+    [ "led2:C", "bb1:30b.g", "", [ "$bb" ] ],
+    [ "led3:A", "bb1:34b.g", "", [ "$bb" ] ],
+    [ "led3:C", "bb1:35b.g", "", [ "$bb" ] ],
+    [ "r1:1", "bb1:39b.f", "", [ "$bb" ] ],
+    [ "r1:2", "bb1:39t.b", "", [ "$bb" ] ],
+    [ "r2:1", "bb1:34b.f", "", [ "$bb" ] ],
+    [ "r2:2", "bb1:34t.b", "", [ "$bb" ] ],
+    [ "r3:1", "bb1:29b.f", "", [ "$bb" ] ],
+    [ "r3:2", "bb1:29t.b", "", [ "$bb" ] ],
+    [ "r10:1", "bb1:10b.g", "", [ "$bb" ] ],
+    [ "r10:2", "bb1:10t.c", "", [ "$bb" ] ],
+    [ "r11:1", "bb1:9b.g", "", [ "$bb" ] ],
+    [ "r11:2", "bb1:9t.c", "", [ "$bb" ] ],
+    [ "r4:1", "bb1:8b.g", "", [ "$bb" ] ],
+    [ "r4:2", "bb1:8t.c", "", [ "$bb" ] ],
+    [ "r5:1", "bb1:7b.g", "", [ "$bb" ] ],
+    [ "r5:2", "bb1:7t.c", "", [ "$bb" ] ],
+    [ "r6:1", "bb1:6b.g", "", [ "$bb" ] ],
+    [ "r6:2", "bb1:6t.c", "", [ "$bb" ] ],
+    [ "r7:1", "bb1:5b.g", "", [ "$bb" ] ],
+    [ "r7:2", "bb1:5t.c", "", [ "$bb" ] ],
+    [ "r8:1", "bb1:4b.g", "", [ "$bb" ] ],
+    [ "r8:2", "bb1:4t.c", "", [ "$bb" ] ]
+  ],
+  "dependencies": {}
+}
