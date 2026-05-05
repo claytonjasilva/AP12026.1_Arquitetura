@@ -1,0 +1,419 @@
+{
+  "version": 1,
+  "author": "Miguel esteves, victor, gabriel rocha, miguel figueira",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-breadboard",
+      "id": "bb1",
+      "top": 169.8,
+      "left": -74,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-arduino-mega",
+      "id": "mega",
+      "top": 451.8,
+      "left": 351.6,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "bz1",
+      "top": 223.2,
+      "left": 443.4,
+      "attrs": {
+        "volume": "0.1"
+      }
+    },
+    {
+      "type": "wokwi-membrane-keypad",
+      "id": "keypad1",
+      "top": -78.8,
+      "left": 648.8,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-hc-sr04",
+      "id": "ultrasonic1",
+      "top": 462.3,
+      "left": 101.5,
+      "attrs": {
+        "distance": "117"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 225.05,
+      "left": -49.4,
+      "rotate": 180,
+      "attrs": {
+        "value": "1000"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": 311.45,
+      "left": -49.4,
+      "rotate": 180,
+      "attrs": {
+        "value": "1000"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r3",
+      "top": 215.45,
+      "left": 37,
+      "rotate": 180,
+      "attrs": {
+        "value": "1000"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r4",
+      "top": 321.05,
+      "left": -39.8,
+      "rotate": 180,
+      "attrs": {
+        "value": "1000"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r7",
+      "top": 321.05,
+      "left": 37,
+      "rotate": 180,
+      "attrs": {
+        "value": "1000"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r8",
+      "top": 225.05,
+      "left": 46.6,
+      "rotate": 180,
+      "attrs": {
+        "value": "1000"
+      }
+    },
+    {
+      "type": "wokwi-7segment",
+      "id": "sevseg1",
+      "top": 235.38,
+      "left": 5.08,
+      "attrs": {
+        "common": "cathode",
+        "digits": "1",
+        "colon": "",
+        "color": "red"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": 207.6,
+      "left": 291.8,
+      "attrs": {
+        "color": "red"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led2",
+      "top": 207.6,
+      "left": 253.4,
+      "attrs": {
+        "color": "orange"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led3",
+      "top": 207.6,
+      "left": 320.6,
+      "attrs": {
+        "color": "limegreen"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r6",
+      "top": 283.2,
+      "left": 316.25,
+      "rotate": 90,
+      "attrs": {
+        "value": "1000"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r9",
+      "top": 283.2,
+      "left": 249.05,
+      "rotate": 90,
+      "attrs": {
+        "value": "1000"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r10",
+      "top": 283.2,
+      "left": 287.45,
+      "rotate": 90,
+      "attrs": {
+        "value": "1000"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r11",
+      "top": 215.15,
+      "left": -38.4,
+      "attrs": {
+        "value": "1000"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "mega:5V",
+      "ultrasonic1:VCC",
+      "red",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "mega:GND.1",
+      "ultrasonic1:GND",
+      "black",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "mega:11",
+      "ultrasonic1:TRIG",
+      "orange",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "mega:12",
+      "ultrasonic1:ECHO",
+      "orange",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "mega:13",
+      "bz1:1",
+      "blue",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "mega:GND.2",
+      "bz1:2",
+      "black",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "keypad1:R1",
+      "mega:34",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "keypad1:R2",
+      "mega:36",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "keypad1:R3",
+      "mega:38",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "keypad1:R4",
+      "mega:40",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "keypad1:C1",
+      "mega:37",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "keypad1:C2",
+      "mega:35",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "keypad1:C3",
+      "mega:39",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "keypad1:C4",
+      "mega:41",
+      "green",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "led1:A",
+      "mega:10",
+      "red",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "led1:C",
+      "mega:GND.3",
+      "black",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "led2:A",
+      "mega:9",
+      "red",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "led2:C",
+      "mega:GND.4",
+      "black",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "led3:A",
+      "mega:8",
+      "red",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "led3:C",
+      "mega:GND.5",
+      "black",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "sevseg1:A",
+      "mega:22",
+      "gold",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "sevseg1:B",
+      "mega:24",
+      "gold",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "sevseg1:C",
+      "mega:26",
+      "gold",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "sevseg1:D",
+      "mega:28",
+      "gold",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "sevseg1:E",
+      "mega:30",
+      "gold",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "sevseg1:F",
+      "mega:44",
+      "gold",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "sevseg1:G",
+      "mega:46",
+      "gold",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "sevseg1:COM.1",
+      "mega:GND.1",
+      "black",
+      [
+        "v0"
+      ]
+    ],
+    [
+      "sevseg1:COM.2",
+      "mega:GND.2",
+      "black",
+      [
+        "v0"
+      ]
+    ]
+  ],
+  "dependencies": {}
+}

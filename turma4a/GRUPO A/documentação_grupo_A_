@@ -1,0 +1,102 @@
+#  Sistema Interpretador de Instruções - Arduino Mega 2560
+
+##  Descrição do Projeto
+
+Este projeto implementa um sistema embarcado baseado no Arduino Mega 2560 que simula conceitos fundamentais de Arquitetura de Computadores, como:
+
+- Programa armazenado
+- Ciclo de instrução
+- Unidade de Controle (UC)
+- Unidade Lógica e Aritmética (ULA)
+- Memória e registradores
+
+O sistema interpreta instruções digitadas (via Serial ou teclado) no formato numérico e executa ações físicas (LED, buzzer, display).
+
+---
+
+##  Elementos Arquiteturais Implementados
+
+| Componente | Implementação |
+|----------|--------|
+| Memória | `int MEM[16]` |
+| PC | `int PC` |
+| IR | `byte IR` |
+| ACC | `int ACC` |
+| FLAG_Z | `bool FLAG_Z` |
+| UC | Funções de controle (`executarInstrucao`) |
+| ULA | Operações `ADDK`, `SUBK`, `CMPK` |
+
+---
+
+##  Modelo de Execução
+
+###  Modo LOAD
+- Ativado com `#`
+- Armazena instruções na memória de programa
+
+###  Modo RUN
+- Comando `RUN`
+- Execução passo a passo com `*`
+
+---
+
+##  Conjunto de Instruções
+
+| Código | Instrução | Função |
+|------|--------|--------|
+| 2 | LOADK | Carrega valor no ACC |
+| 3 | ADDK | Soma ao ACC |
+| 4 | SUBK | Subtrai do ACC |
+| 5 | CMPK | Compara valores |
+| 6 | LEDON | Liga LED |
+| 7 | LEDOFF | Desliga LED |
+| 8 | BUZON | Liga buzzer |
+| 9 | BUZOFF | Desliga buzzer |
+| 10 | DISP | Mostra valor |
+| 13 | STORE | Salva na memória |
+| 14 | LOADM | Carrega da memória |
+| 15 | HALT | Finaliza execução |
+
+---
+
+##  Ciclo de Instrução
+
+1. Busca instrução (`PC`)
+2. Carrega no `IR`
+3. Decodifica
+4. Executa
+5. Atualiza `PC`
+
+---
+
+##  Tratamento de Erros
+
+- Overflow (>9): exibe `E`
+- Negativo: exibe `-`
+
+---
+
+##  Hardware Utilizado
+
+- Arduino Mega 2560
+- LEDs
+- Buzzer
+- Protoboard
+- Resistores
+
+---
+
+## Testes Realizados
+
+- ✔ Operações matemáticas
+- ✔ Controle de LED
+- ✔ Controle de buzzer
+- ✔ Memória (STORE / LOADM)
+- ✔ HALT funcionando
+- ✔ Execução passo a passo
+
+---
+
+##  Conclusão
+
+O projeto demonstra com sucesso a aplicação prática dos conceitos de arquitetura de computadores em um sistema embarcado.
