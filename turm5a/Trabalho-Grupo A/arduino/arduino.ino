@@ -1,6 +1,14 @@
 #include <Keypad.h>
 
 /*
+Maria Luiza Vicente Sinésio - TA
+Henrique 
+Lucas De Carvalho
+*/
+
+
+
+/*
   APERTE 0 PARA TESTAR O BUZZER E O SENSOR (check)
   APERTE # PARA ENTRAR NO LOAD E NOVAMENTE PARA SAIR (check)
   PARA LIGAR O LED 1 ---> 6 C 1 B #, 6 C 2 B para o segundo ,
